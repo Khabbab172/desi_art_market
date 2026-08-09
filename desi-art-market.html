@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desi Art Market — Indian Handmade Art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #F9F6F1;
+      --bg-card: #FFFFFF;
+      --text-primary: #2C1810;
+      --text-secondary: #6D5E54;
+      --accent: #C65D3B;
+      --accent-hover: #A54B2E;
+      --border: #E8E0D5;
+      --shadow: rgba(44, 24, 16, 0.06);
+      --radius: 12px;
+      --danger: #B93E3E;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Utility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Navbar */
+    nav {
+      width: 100%;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 1400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .nav-logo {
+      position: absolute;
+      left: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+    }
+
+    .nav-logo svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .nav-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* Left Column (Cart) */
+    .cart-column {
+      position: sticky;
+      top: 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+
+    .panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    /* Cart Items */
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+
+    .empty-cart {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      text-align: center;
+      padding: 1.5rem 0;
+      font-style: italic;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .cart-item-info h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      line-height: 1.2;
+    }
+
+    .cart-item-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cart-item-controls button {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--bg-cream);
+      color: var(--text-primary);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .cart-item-controls button:hover {
+      background: var(--border);
+    }
+
+    .cart-item-controls span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .cart-item-price {
+      text-align: right;
+      min-width: 70px;
+    }
+
+    .cart-item-price p {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .remove-btn {
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .remove-btn:hover {
+      color: var(--accent-hover);
+    }
+
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+ font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* Checkout Form */
+    .checkout-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 0.65rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: var(--bg-cream);
+      color: var(--text-primary);
+      transition: border-color 0.2s, box-shadow 0.2s;
+ width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(198, 93, 59, 0.1);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .form-group input.error {
+      border-color: var(--danger);
+ box-shadow: 0 0 0 3px rgba(185, 62, 62, 0.1);
+    }
+
+    .place-order-btn {
+      margin-top: 0.5rem;
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .place-order-btn:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+
+    .place-order-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .place-order-btn:active:not(:disabled) {
+      transform: translateY(1px);
+ }
+
+    /* Right Column (Products) */
+    .products-column h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: var(--text-primary);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 16px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(44, 24, 16, 0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: var(--bg-cream);
+    }
+
+    .product-info {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+ gap: 0.5rem;
+    }
+
+    .product-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .product-description {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      flex: 1;
+    }
+
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .meta-tag {
+      font-size: 0.75rem;
+      background: var(--bg-cream);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .add-to-cart-btn {
+      padding: 0.5rem 1rem;
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--text-primary);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      z-index: 200;
+      pointer-events: none;
+      max-width: 320px;
+      line-height: 1.4;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      background: var(--danger);
+    }
+
+    .toast.success {
+      background: #4A7C59;
+    }
+
+    /* Confirmation Overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 24, 16, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: popIn 0.3s ease-out;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .modal p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+ line-height: 1.5;
+    }
+
+    .modal .order-id {
+      font-family: monospace;
+      font-size: 1.1rem;
+      background: var(--bg-cream);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      color: var(--text-primary);
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .modal button {
+      padding: 0.65rem 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .container {
+        grid-template-columns: 1fr;
+ gap: 2rem;
+      }
+
+      .cart-column {
+        position: static;
+        order: 2;
+      }
+
+      .products-column {
+        order: 1;
+      }
+
+      nav {
+        padding: 1rem;
+      }
+
+      .nav-title {
+        font-size: 1.25rem;
+      }
+
+      .nav-logo {
+        position: static;
+        margin-right: auto;
+      }
+
+      .nav-inner {
+        justify-content: flex-start;
+        gap: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav role="navigation" aria-label="Main">
+    <div class="nav-inner">
+      <div class="nav-logo" aria-hidden="true">
+        <!-- Stylized Lotus / Art Icon -->
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 2C12 8 8 12 2 16C8 20 12 24 16 30C20 24 24 20 30 16C24 12 20 8 16 2Z"/>
+ <circle cx="16" cy="16" r="4" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <h1 class="nav-title">Desi Art Market</h1>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Left Column: Cart & Checkout -->
+    <aside class="cart-column">
+      <section class="panel" aria-labelledby="cart-heading">
+        <h2 id="cart-heading">Shopping Cart</h2>
+        <div id="cart-items" class="cart-items">
+          <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-total-row">
+          <span>Total</span>
+          <span id="cart-total">₹0</span>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="checkout-heading">
+        <h2 id="checkout-heading">Customer Details</h2>
+        <form id="checkout-form" class="checkout-form" onsubmit="event.preventDefault();">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mobile">Mobile Number</label>
+              <input type="tel" id="mobile" name="mobile" placeholder="10-digit number" maxlength="10" inputmode="numeric" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="email@example.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Delivery Address</label>
+            <textarea id="address" name="address" rows="2" placeholder="Street, locality, landmark" required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" placeholder="City" required>
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <input type="text" id="state" name="state" placeholder="State" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="pin">PIN Code</label>
+            <input type="text" id="pin" name="pin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric" required>
+          </div>
+          <button type="button" id="place-order-btn" class="place-order-btn" onclick="placeOrder()">Place Order</button>
+        </form>
+      </section>
+    </aside>
+
+    <!-- Right Column: Product List -->
+    <section class="products-column" aria-labelledby="products-heading">
+      <h2 id="products-heading">Curated Indian Art</h2>
+      <div id="product-grid" class="product-grid">
+        <!-- Products rendered via JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Order Confirmation Modal -->
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <h3 id="modal-title">Order Confirmed</h3>
+      <p>Thank you for supporting Indian artisans. Your order has been received.</p>
+      <div class="order-id" id="modal-order-id"></div>
+      <button onclick="closeModal()">Continue Shopping</button>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================
+ CONFIGURATION
+       ========================================= */
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdd41TxcW1L89p03AoZliikwoQWVGiKMoUjpYOT5Cqd5l1pI_T8wqVRkU_B-qtorZLw/exec"; // Replace with your deployed Web App URL
+
+    /* =========================================
+       PRODUCT DATA
+       ========================================= */
+    const products = [
+      {
+        id: 'ART001',
+        name: 'Madhubani Painting',
+        description: 'Intricate traditional Mithila painting depicting folklore, nature, and deities with natural dyes.',
+        artist: 'Sita Devi',
+        region: 'Bihar',
+        price: 2500,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Madhubani'
+      },
+      {
+        id: 'ART002',
+        name: 'Gond Art',
+        description: 'Vibrant tribal artwork from the Gond community inspired by legends and the deep forests of India.',
+        artist: 'Ram Singh Urveti',
+        region: 'Madhya Pradesh',
+        price: 1800,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Gond+Art'
+      },
+      {
+        id: 'ART003',
+        name: 'Pattachitra Painting',
+        description: 'Hand-painted cloth scroll art known for its mythological narratives and fine linework.',
+        artist: 'Raghurajpur Collective',
+        region: 'Odisha',
+        price: 3200,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Pattachitra'
+      },
+      {
+        id: 'ART004',
+        name: 'Warli Art',
+        description: 'Ancient tribal art using simple geometric shapes to depict daily life and rural harmony.',
+        artist: 'Jivya Soma Mashe',
+        region: 'Maharashtra',
+        price: 1500,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Warli+Art'
+      },
+      {
+        id: 'ART005',
+        name: 'Phulkari Artwork',
+        description: 'Vibrant hand-embroidered floral patterns traditionally crafted with silk thread on cotton.',
+        artist: 'Amritsar Craftswomen',
+        region: 'Punjab',
+        price: 2200,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Phulkari'
+      },
+      {
+        id: 'ART006',
+        name: 'Kalamkari Painting',
+        description: 'Hand-painted or block-printed textile art narrating epics using organic pigments.',
+        artist: 'Srikalahasti Guild',
+        region: 'Andhra Pradesh',
+        price: 1950,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Kalamkari'
+      },
+      {
+        id: 'ART007',
+        name: 'Blue Pottery',
+        description: 'Turquoise-hued Jaipur blue pottery with Persian-inspired floral and animal motifs.',
+        artist: 'Kripal Singh Shekhawat',
+        region: 'Rajasthan',
+        price: 1450,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Blue+Pottery'
+      },
+      {
+        id: 'ART008',
+        name: 'Dhokra Art',
+        description: 'Ancient lost-wax casting tribal figurines and artifacts with a rustic golden finish.',
+        artist: 'Bikram Singh',
+        region: 'Chhattisgarh',
+        price: 3800,
+        image: 'https://placehold.co/400x300/F5EDE4/C65D3B?text=Dhokra+Art'
+      }
+    ];
+
+    /* =========================================
+       STATE       ========================================= */
+    let cart = [];
+
+    /* =========================================
+       UI RENDERING
+       ========================================= */
+    function init() {
+      renderProducts();
+      renderCart();
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = products.map(p => `
+        <article class="product-card"
+          data-product-id="${p.id}"
+          data-product-name="${escapeHtml(p.name)}"
+          data-price="${p.price}"
+          data-description="${escapeHtml(p.description)}"
+          data-artist="${escapeHtml(p.artist)}"
+          data-region="${escapeHtml(p.region)}"
+          data-image="${escapeHtml(p.image)}"
+        >
+          <img src="${p.image}" alt="${escapeHtml(p.name)} from ${escapeHtml(p.region)}" loading="lazy">
+          <div class="product-info">
+            <h3>${p.name}</h3>
+            <p class="product-description">${p.description}</p>
+ <div class="product-meta">
+              <span class="meta-tag">${p.artist}</span>
+              <span class="meta-tag">${p.region}</span>
+            </div>
+            <div class="product-footer">
+              <span class="price">₹${p.price.toLocaleString('en-IN')}</span>
+              <button class="add-to-cart-btn" type="button" aria-label="Add ${escapeHtml(p.name)} to cart" onclick="handleAddToCart(this)">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+        totalEl.textContent = '₹0';
+        return;
+      }
+
+      let total = 0;
+      container.innerHTML = cart.map(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        return `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <h4>${item.name}</h4>
+              <p class="cart-item-meta">${item.artist} • ${item.region}</p>
+            </div>
+            <div class="cart-item-controls">
+              <button type="button" aria-label="Decrease quantity of ${escapeHtml(item.name)}" onclick="updateQuantity('${item.id}', -1)">−</button>
+              <span>${item.quantity}</span>
+              <button type="button" aria-label="Increase quantity of ${escapeHtml(item.name)}" onclick="updateQuantity('${item.id}', 1)">+</button>
+            </div>
+            <div class="cart-item-price">
+              <p>₹${subtotal.toLocaleString('en-IN')}</p>
+              <button type="button" class="remove-btn" onclick="removeItem('${item.id}')">Remove</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      totalEl.textContent = '₹' + total.toLocaleString('en-IN');
+    }
+
+    /* =========================================
+       CART LOGIC
+       ========================================= */
+    function handleAddToCart(button) {
+      const card = button.closest('.product-card');
+      const product = {
+        id: card.dataset.productId,
+        name: card.dataset.productName,
+        price: parseInt(card.dataset.price, 10),
+        artist: card.dataset.artist,
+        region: card.dataset.region,
+        image: card.dataset.image
+      };
+
+      const existing = cart.find(item => item.id === product.id);
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      renderCart();
+      showToast('Added to cart', 'success');
+    }
+
+    function updateQuantity(productId, change) {
+      const item = cart.find(i => i.id === productId);
+      if (!item) return;
+
+      item.quantity += change;
+      if (item.quantity <= 0) {
+        removeItem(productId);
+        return;
+      }
+      renderCart();
+    }
+
+    function removeItem(productId) {
+      cart = cart.filter(i => i.id !== productId);
+      renderCart();
+    }
+
+    function getCartTotal() {
+      return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    /* =========================================
+       CHECKOUT & VALIDATION
+       ========================================= */
+    function validateForm() {
+      const fields = [
+        { id: 'fullName', name: 'Full Name' },
+        { id: 'mobile', name: 'Mobile Number' },
+        { id: 'email', name: 'Email' },
+        { id: 'address', name: 'Address' },
+        { id: 'city', name: 'City' },
+        { id: 'state', name: 'State' },
+        { id: 'pin', name: 'PIN Code' }
+      ];
+
+      let valid = true;
+      fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        if (!el.value.trim()) {
+          el.classList.add('error');
+          valid = false;
+        } else {
+          el.classList.remove('error');
+        }
+      });
+
+      // Mobile: 10 digits
+      const mobile = document.getElementById('mobile');
+      if (mobile.value.trim() && !/^\d{10}$/.test(mobile.value.trim())) {
+        mobile.classList.add('error');
+        showToast('Please enter a valid 10-digit mobile number', 'error');
+        valid = false;
+      }
+
+      // Email      const email = document.getElementById('email');
+      if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+        email.classList.add('error');
+        showToast('Please enter a valid email address', 'error');
+        valid = false;
+      }
+
+      // PIN: 6 digits
+      const pin = document.getElementById('pin');
+      if (pin.value.trim() && !/^\d{6}$/.test(pin.value.trim())) {
+        pin.classList.add('error');
+        showToast('Please enter a valid 6-digit PIN code', 'error');
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    async function placeOrder() {
+      if (cart.length === 0) {
+        showToast('Your cart is empty. Add some beautiful art first!', 'error');
+        return;
+      }
+
+      if (!validateForm()) {
+        return;
+      }
+
+      const orderId = 'ORD-' + Date.now();
+      const totalAmount = getCartTotal();
+      const productSummary = cart.map(i => `${i.name} x${i.quantity}`).join(', ');
+      const productIds = cart.map(i => i.id).join(', ');
+      const quantities = cart.map(i => i.quantity).join(', ');
+
+      const payload = {
+        orderId,
+        customerName: document.getElementById('fullName').value.trim(),
+        mobile: document.getElementById('mobile').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        state: document.getElementById('state').value.trim(),
+        pin: document.getElementById('pin').value.trim(),
+        products: productSummary,
+        productIds: productIds,
+        quantities: quantities,
+        totalAmount: totalAmount,
+        orderDate: new Date().toISOString()
+      };
+
+      const btn = document.getElementById('place-order-btn');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Placing Order...';
+
+      try {
+        if (APPS_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL') {
+          throw new Error('Please configure your Google Apps Script URL in the APPS_SCRIPT_URL variable.');
+        }
+
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        let result;
+        try {
+          result = await response.json();
+        } catch (e) {
+          result = { success: true }; // Fallback if response is not JSON but request succeeded
+        }
+
+        if (!response.ok || result.success === false) {
+          throw new Error(result.message || 'Server returned an error.');
+        }
+
+        // Success
+        document.getElementById('modal-order-id').textContent = orderId;
+        document.getElementById('overlay').classList.add('show');
+
+        cart = [];
+ renderCart();
+        document.getElementById('checkout-form').reset();
+
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to place order: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('overlay').classList.remove('show');
+    }
+
+    /* =========================================
+       TOAST NOTIFICATION
+       ========================================= */
+    function showToast(message, type = '') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast ' + type;
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    /* =========================================
+       HELPERS
+       ========================================= */
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    /* =========================================
+       INIT ========================================= */
+    init();
+  </script>
+</body>
+</html>
